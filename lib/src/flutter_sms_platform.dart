@@ -32,9 +32,9 @@ class FlutterSmsPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<String> sendSMS({
-    @required String message,
-    @required List<String> recipients,
+  Future<String?> sendSMS({
+    required String message,
+    required List<String> recipients,
   }) {
     var mapData = Map<dynamic, dynamic>();
     mapData["message"] = message;
@@ -48,13 +48,13 @@ class FlutterSmsPlatform extends PlatformInterface {
     }
   }
 
-  Future<bool> canSendSMS() {
+  Future<bool?> canSendSMS() {
     return _channel.invokeMethod<bool>('canSendSMS');
   }
 
-  Future<bool> launchSmsMulti(List<String> numbers, [String body]) {
+  Future<bool> launchSmsMulti(List<String> numbers, [String? body]) {
     if (numbers == null || numbers.length == 1) {
-      return launchSms(numbers?.first, body);
+      return launchSms(numbers.first, body);
     }
     String _phones = numbers.join(";");
     if (body != null) {
@@ -64,7 +64,7 @@ class FlutterSmsPlatform extends PlatformInterface {
     return launch('sms:/open?addresses=$_phones');
   }
 
-  Future<bool> launchSms(String number, [String body]) {
+  Future<bool> launchSms(String number, [String? body]) {
     if (number == null) {
       number = '';
     }
@@ -88,9 +88,9 @@ class FlutterSmsPlatform extends PlatformInterface {
         'iPod',
         'Mac OS X',
       ];
-      final String _agent = FlutterUserAgent.webViewUserAgent;
+      final String? _agent = FlutterUserAgent.webViewUserAgent;
       for (final device in _devices) {
-        if (_agent.contains(device)) {
+        if (_agent!.contains(device)) {
           return true;
         }
       }
